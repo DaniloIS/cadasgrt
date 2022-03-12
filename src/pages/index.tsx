@@ -1,34 +1,13 @@
-import { useState } from 'react';
+
 import Button from '../components/Button';
 import Form from '../components/Form';
 import Layout from '../components/Layout';
 import Table from '../components/Table';
-import Client from '../core/Client';
+import useClients from '../hooks/useClients';
 
 export default function Home() {
 
-  const clients = [
-    new Client('Ana', 34, '1'),
-    new Client('Bia', 45, '2'),
-    new Client('Carol', 23, '3'),
-    new Client('Pedro', 34, '4'),
-    new Client('Danilo', 23, '5'),
-    new Client('Diego', 25, '6')
-  ]
-
-  function clientSelected(client: Client) {
-
-  }
-
-  function clientExcluded(client: Client) {
-
-  }
-
-  function clientToSave(client: Client) {
-
-  }
-
-  const [visible, setVisible] = useState<'table' | 'form'>('table')
+  const { clientToSave, newClient, clientExcluded, clientSelected, client, clients, tableVisible, displayTable } = useClients()
 
   return (
     <div className={`
@@ -40,10 +19,10 @@ export default function Home() {
       text-white
     `}>
       <Layout title='Cadastro Simples'>
-        {visible === 'table' ? (
+        {tableVisible ? (
           <>
             <div className='flex justify-end'>
-              <Button color='green' className='mb-4' onClick={() => setVisible('form')}>Novo Cliente</Button>
+              <Button color='green' className='mb-4' onClick={newClient}>Novo Cliente</Button>
             </div>
             <Table 
               clients={clients} 
@@ -52,7 +31,7 @@ export default function Home() {
             />
           </>
         ) : (
-          <Form client={clients[0]} cancel={() => setVisible('table')} />
+          <Form client={client} onChangeClient={clientToSave} cancel={() => displayTable} />
         )}
         
       </Layout>

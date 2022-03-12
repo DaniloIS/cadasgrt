@@ -21,6 +21,7 @@ export default function Table(props: TableProps) {
             </tr>
         )
     }
+    console.log(props.clients)
     
     function renderData() {
         return props.clients?.map((client, i) => {
