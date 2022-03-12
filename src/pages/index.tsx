@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import Button from '../components/Button';
+import Form from '../components/Form';
 import Layout from '../components/Layout';
 import Table from '../components/Table';
 import Client from '../core/Client';
@@ -22,6 +24,12 @@ export default function Home() {
 
   }
 
+  function clientToSave(client: Client) {
+
+  }
+
+  const [visible, setVisible] = useState<'table' | 'form'>('table')
+
   return (
     <div className={`
       flex 
@@ -32,14 +40,21 @@ export default function Home() {
       text-white
     `}>
       <Layout title='Cadastro Simples'>
-        <div className='flex justify-end'>
-          <Button color='green' className='mb-4'>Novo Cliente</Button>
-        </div>
-        <Table 
-          clients={clients} 
-          clientSelected={clientSelected} 
-          clientExcluded={clientExcluded} 
-        />
+        {visible === 'table' ? (
+          <>
+            <div className='flex justify-end'>
+              <Button color='green' className='mb-4' onClick={() => setVisible('form')}>Novo Cliente</Button>
+            </div>
+            <Table 
+              clients={clients} 
+              clientSelected={clientSelected} 
+              clientExcluded={clientExcluded} 
+            />
+          </>
+        ) : (
+          <Form client={clients[0]} cancel={() => setVisible('table')} />
+        )}
+        
       </Layout>
     </div>
   )
